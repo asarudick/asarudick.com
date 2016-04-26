@@ -1,0 +1,34 @@
+@import 'bourbon';
+
+.fadeIn-before {
+	opacity: 0;
+}
+.fadeIn {
+	@include animation(fadeIn 1.0s ease);
+}
+
+.slide {
+	@include animation(slide 500ms ease-in);
+}
+
+.fadeAndSlide {
+	@include animation(slide 500ms ease-in, fadeIn 1.0s ease);
+}
+
+@include keyframes(fadeIn) {
+  0% {
+	  opacity: 0;
+  }
+  100% {
+	  opacity: 1;
+  }
+}
+
+@include keyframes(slide) {
+  0% {
+    transform: translateY(10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
