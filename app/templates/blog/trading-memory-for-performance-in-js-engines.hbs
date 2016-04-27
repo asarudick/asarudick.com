@@ -1,8 +1,7 @@
 <div id="blog">
+	{{partial 'blog/partials/header'}}
 	<article>
-		<header>
-			<h1>Trading Memory For Performance in JavaScript Engines</h1>
-		</header>
+		<h1>Trading Memory For Performance in JavaScript Engines</h1>
 		<section class="content">
 
 				<p>In the early days of the web, when MySpace was the unrelenting eyesore that it was, and Internet Explorer had a 96% market share, JavaScript performance was a concern, but not nearly a priority. Most JavaScript interpreters at the time had a simple compilation scheme that translated JavaScript code into bytecode, and, since then, numerous JIT(Just-In-Time) tiers have been added to milk every last drop of performance. To assist, and have said tiers achieve optimal performance, certain techniques must be employed, namely inline caching, as well as inline expansion, and hidden classes. We'll examine those techniques in more detail.</p>

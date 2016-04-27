@@ -12,12 +12,7 @@
 
 html, body {
   	overflow-x: hidden;
-	// font-size: 62.5%;
 	height: 100%;
-	// width: 100%;
-	// @include media($mobile) {
-	// 	font-size: 55%;
-	// }
 }
 
 body {
@@ -31,8 +26,8 @@ img.circular {
 }
 
 img.small {
-	width: 64px;
-	height: 64px;
+	width: 80px;
+	height: 80px;
 }
 
 img.medium {
@@ -86,14 +81,13 @@ body > .ember-view {
 	}
 	@include media($desktop) {
 		font-size: 3rem;
-		padding-right: 0.5rem;
+		padding-right: 1rem;
 	}
 }
 
 #content {
-	width: 75%;
+	width: 100%;
 	height: inherit;
 	display: inherit;
-	justify-content: center;
-
+	flex-direction: column;
 }
