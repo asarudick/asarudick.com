@@ -1,0 +1,25 @@
+@import 'colors';
+
+#menu {
+	font-family: DINPro, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	background-color: darken(#FFF, 3);
+	padding-top: 30px;
+	color: lighten(#000, 10);
+	font-size: 2rem;
+
+	ul	{
+		list-style: none;
+
+		li {
+			padding-top: 20px;
+		}
+	}
+	a {
+		color: lighten(#000, 10);
+		text-decoration: none;
+	}
+	a:hover {
+		color: $lightgreen;
+		text-decoration: none;
+	}
+}

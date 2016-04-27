@@ -1,43 +1,140 @@
-<p>
-	Lorem ipsum dolor sit amet,
-	<p> </p>
-	consectetur adipisicing elit,
-	<p> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
-	 <p> quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,</p>
-	  <p> sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</p>
-<p>
-	Lorem ipsum dolor sit amet,
-	<p> consectetur adipisicing elit,</p>
-	 <p> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
-	  <p> quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,</p>
-	   <p> sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</p>
-<p>
-	Lorem ipsum dolor sit amet,
-	<p> consectetur adipisicing elit,</p>
-	 <p> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
-	  <p> quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,</p>
-	   <p> sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</p>
-<p>
-	Lorem ipsum dolor sit amet,
-	<p> consectetur adipisicing elit,</p>
-	 <p> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
-	  <p> quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,</p>
-	   <p> sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</p>
-<p>
-	Lorem ipsum dolor sit amet,
-	<p> consectetur adipisicing elit,</p>
-	 <p> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
-	  <p> quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,</p>
-	   <p> sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</p>
-<p>
-	Lorem ipsum dolor sit amet,
-	<p> consectetur adipisicing elit,</p>
-	 <p> sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,</p>
-	  <p> quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,</p>
-	   <p> sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-</p>
+<div id="blog">
+	<article>
+		<header>
+			<h1>Trading Memory For Performance in JavaScript Engines</h1>
+		</header>
+		<section class="content">
+
+				<p>In the early days of the web, when MySpace was the unrelenting eyesore that it was, and Internet Explorer had a 96% market share, JavaScript performance was a concern, but not nearly a priority. Most JavaScript interpreters at the time had a simple compilation scheme that translated JavaScript code into bytecode, and, since then, numerous JIT(Just-In-Time) tiers have been added to milk every last drop of performance. To assist, and have said tiers achieve optimal performance, certain techniques must be employed, namely inline caching, as well as inline expansion, and hidden classes. We'll examine those techniques in more detail.</p>
+
+				<h2>Hidden Classes (or 'Shapes')</h2>
+
+				<p>Almost all browsers make use of Self's technique of converting dynamic structures to static ones for performance gains. Google calls them 'hidden classes', or 'maps' in V8, while Mozilla uses the term 'shapes' within SpiderMonkey, but they're the same concept, in that they substitute an instance of a static structure(ie. a class instance) for a dynamic one(ie. a dictionary/hashtable). Dynamic structures require lookups for accessing properties, usually by means of a hash function that produces the index of where to find the relevant data. With class instances, however, no lookup is required, as indexes, or offsets, for properties are readily available. The nominal case provides significant a significant performance boost, but it's not without pitfalls.</p>
+
+				<p>Generally, JavaScript objects are comprised of a limited number of properties when the developer adheres to best practices and limits the responsibilities of the objects in question. V8's hidden classes approach is excellent for such cases, but if an object has an absurd number of properties, there is a considerable amount of memory bloat, albeit non-fatal.</p>
+
+				<p>To illustrate, let's examine the nominal case first. Let's use an application that has the need for encapsulating <code>Person</code> into a object, and each <code>Person</code> has the properties <code>name</code>, <code>age</code>, <code>gender</code>, and <code>height</code>, and said properties are unconditionally initialized within the constructor in a consistent order.</p>
+
+				<div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">Person</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">,</span> <span class="nx">gender</span><span class="p">,</span> <span class="nx">height</span><span class="p">)</span> <span class="p">{</span>
+
+	<span class="c1">// Transitions from C0 to C1.</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+
+	<span class="c1">// Transitions from C1 to C2.</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
+
+	<span class="c1">// Transitions from C2 to C3.</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">gender</span> <span class="o">=</span> <span class="nx">gender</span><span class="p">;</span>
+
+	<span class="c1">// Transitions from C3 to C4.</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">height</span><span class="p">;</span>
+<span class="p">}</span>
+				</pre></div>
+
+				{{!-- <pre><code class="javascript"></code></pre> --}}
+
+
+
+				<p>Upon the constructor being called, V8 creates a hidden class <code>C0</code> with no properties, and then sees a <code>name</code> property, after which it creates a <code>C1</code> class with a name property and records the transition from <code>C0</code> to <code>C1</code> and associates it with the empty set of properties and the set containing one property, <code>name</code>. Similarly, when V8 sees the <code>age</code> property, it'll create a <code>C2</code> class that has a name and age property, and records the transition from <code>C1</code> to <code>C2</code>, and the same process continues as properties are added to <code>Person</code>. In the end, we are left with <code>C0</code>, <code>C1</code>, <code>C2</code>, <code>C3</code>, and <code>C4</code>, but every instance of <code>Person</code> will correspond to an instance of <code>C4</code> unless transitioning to <code>C4</code>(ie. the constructor hasn't yet completed). We end up with 4 types(<code>C0</code>, <code>C1</code>, <code>C2</code>, <code>C3</code>) that are only <em>transitory</em>. If, however, an object contained N properties, there would become N transitory hidden classes, all of which are stored in memory. Furthermore, if the ordering of the initialization of the properties were to deviate, <strong>additional</strong> hidden classes would be created and memory would further bloat.</p>
+
+				<p>The naive alternative is for each object to have a hashtable containing a key-value pair for each property, and such requires an underlying array that is equal or greater(in most cases) in size than the total number of keys in said hashtable. This compared to hidden classes approach has a worse space complexity in the average case, but not the worst case. In the worst case<sup><a href="#worstcase">1</a></sup>, where properties are randomized in order and conditionally set, property hashtables see no difference from the average case, but the hidden classes approach see much more memory allocation. For example, if we were to conditionally call a different private initialization method within the <code>Person</code> constructor, where the <code>name</code> property is omitted in the <code>Person</code> object, V8 would would then create 3 additional hidden classes. Using the same example, property hashtables would store one less key.</p>
+
+				<div class="highlight"><pre><span></span><span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">conditionalInitialize</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">age</span><span class="p">,</span> <span class="nx">gender</span><span class="p">,</span> <span class="nx">height</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// Transitions from C0 to C5.</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
+
+	<span class="c1">// Transitions from C5 to C6.</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">gender</span> <span class="o">=</span> <span class="nx">gender</span><span class="p">;</span>
+
+	<span class="c1">// Transitions from C6 to C7.</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">height</span><span class="p">;</span>
+<span class="p">};</span>
+
+
+<span class="kd">function</span> <span class="nx">Person</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">,</span> <span class="nx">gender</span><span class="p">,</span> <span class="nx">height</span><span class="p">)</span> <span class="p">{</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+	    <span class="k">this</span><span class="p">.</span><span class="nx">conditionalInitialize</span><span class="p">(</span><span class="nx">age</span><span class="p">,</span> <span class="nx">gender</span><span class="p">,</span> <span class="nx">height</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">else</span> <span class="p">{</span>
+	    <span class="c1">// Transitions from C0 to C1.</span>
+	    <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+
+	    <span class="c1">// Transitions from C1 to C2.</span>
+	    <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
+
+	    <span class="c1">// Transitions from C2 to C3.</span>
+	    <span class="k">this</span><span class="p">.</span><span class="nx">gender</span> <span class="o">=</span> <span class="nx">gender</span><span class="p">;</span>
+
+	    <span class="c1">// Transitions from C3 to C4.</span>
+	    <span class="k">this</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">height</span><span class="p">;</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+				</pre></div>
+
+
+				<p>It's a no-brainer why modern JavaScript engines have hidden classes in place. The time complexity for a property access or write ends up being constant, and a better constant than a hashtable lookup since the index is already available. The space complexity is reasonable except in cases where the language usage is clearly not.</p>
+
+				<p><a name="worstcase">1</a>: Actually, the worst case would also include <em>randomized</em> property names, but then it is an entirely different object. If such a constructor existed, however, the created hidden classes would not be reused.</p>
+
+				<h2>Inline caching</h2>
+
+				<p>In addition to quick property accesses, most browsers have a need for swift method calls, regardless of the type upon which the method is being called. With the example code below, you can see that the interpreter must locate a method entitled <code>eat</code> that belongs to <code>dave</code>.</p>
+
+				<p><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">hamburger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Hamburger</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">dave</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s1">&#39;Dave&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">didEat</span> <span class="o">=</span> <span class="nx">dave</span><span class="p">.</span><span class="nx">eat</span><span class="p">(</span><span class="nx">hamburger</span><span class="p">);</span></pre></div>
+
+				First, it must look at the object's own properties, and if no hit, it examines the <code>Person</code> prototype. This ends up being rather expensive as it involves  lookups in potentially multiple hashtables on each call. To counteract this expense, V8 and SpiderMonkey both make use of inline caching, where the result of the method lookup is cached within the call site for instant access.</p>
+
+				<p>Inline caching isn't without pitfalls itself. Inline caching must be place guard conditions to check the type of the object prior to using the cached function call. If the guard conditions fail, it experiences a cache miss, and has to resort to using lookups. In the case of polymorphic objects, where the type can vary upon each call, inline caching ends up with a significant number of cache misses, which lead to lookups and cache overwrites. As a worst case example, suppose we had 2 types of objects, <code>Cat</code> and <code>Dog</code>, and both had a method named <code>eat</code> and the code below existed:</p>
+
+<div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">food</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Bird</span><span class="p">();</span>
+<span class="nx">_</span><span class="p">.</span><span class="nx">forEach</span><span class="p">([</span><span class="k">new</span> <span class="nx">Dog</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">Cat</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">Dog</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">Cat</span><span class="p">()],</span> <span class="p">(</span><span class="nx">animal</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p"> {</span>
+    <span class="nx">animal</span><span class="p">.</span><span class="nx">eat</span><span class="p">(</span><span class="nx">food</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+
+
+				<p>On the first iteration, the <code>eat</code> method for <code>Dog</code> is retrieved and cached, but on the next iteration it is a cache miss. Same process occurs for the <code>eat</code> method for <code>Cat</code>, but again the next iteration is a cache miss. None of the iterations end up using the cached method, but the type checks still execute, and thus the naive inline caching does more harm than good.</p>
+
+				<p>The potentially obvious answer to this problem is to combine the type checks and the caches for <code>Dog</code> and <code>Cat</code>, and extend the cache as additional types are encountered. This is considered polymorphic inline caching, or PIC, and most JavaScript engines utilize this approach.</p>
+
+				<h2>Inline expansion</h2>
+
+				<p>In addition to inline caching, modern JavaScript engines will utilize inline expansion, where short methods are inlined at the calling site. For example:</p>
+
+<div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">add</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="nx">y</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">add10</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="nx">add</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+				<p>would become:</p>
+
+<div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">add10</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">10</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+				<p>As a result, one less stack frame is needed, and the additional overhead for calling <code>add(x,y)</code> at the target site is removed. The branch or jump instruction is also removed as a result, and thusly CPU pipelining can be more fully utilized. Inline expansion does end up duplicating the body of the function being inlined, meaning additional memory requirements, but it is well worth the performance boost.</p>
+
+				<h2>Additional points</h2>
+
+				<h3>Process-per-tab</h3>
+
+				<p>Most browsers(Chrome and Firefox, at least) that use these engines will launch a process for each tab created, further enhancing reliability by preventing the errors caused in one to affect another tab. This also means that each process has its own JavaScript interpreter assigned to a single thread, and can make use of concurrency and parallelism with support and management from the OS. In cases where synchronous AJAX requests(generally a horrible idea) were made in one tab, this means it won't block the program execution in other tabs.</p>
+
+				<h3>Garbage Collection</h3>
+
+				<p>Garbage collection is actually trading performance for memory, since its objective is to reclaim memory on a periodic basis, but for the period in which it is inactive, the reverse can be argued to be true. In refusal to be too philosophical, I'll consider it a draw and regard GC as managing memory and performance.</p>
+
+		</section>
+	</article>
+</div>
