@@ -1,7 +1,14 @@
-#blog {
-	font-family: DINPro, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-	font-size: 2rem;
-	article {
+@import 'bourbon';
+@import 'neat';
+@import 'breakpoints';
 
+#blog {
+	width: 100%;
+	font-family: DINPro, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	article {
+		width: 100%;
+		// @include media($mobile) {
+		// 	@include span-columns(12);
+		// }
 	}
 }

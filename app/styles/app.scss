@@ -7,6 +7,8 @@
 @import 'menu';
 @import 'colors';
 @import 'comfort-syntax';
+@import 'noselect';
+
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300);
 @import url(https://fonts.googleapis.com/css?family=Ropa+Sans);
 @font-face {
@@ -18,15 +20,19 @@
     src: url('/fonts/DINPro-Medium.woff') format('woff');
 }
 
-html {
-	font-size: 62.5%;
+html, body {
+  	overflow-x: hidden;
+	// font-size: 62.5%;
 	height: 100%;
-	width: 100%;
+	// width: 100%;
+	// @include media($mobile) {
+	// 	font-size: 55%;
+	// }
 }
 
 body {
+  	position: relative;
 	width: 100%;
-	height: 100%;
 	margin: 0 0 0 0;
 }
 
@@ -67,23 +73,33 @@ body > .ember-view {
 	height: 100%;
 }
 
-// .text-rotator {
-// 	p {
-// 		code {
-// 			font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
-// 			font-size: 1.3rem;
-// 			font-weight: normal;
-// 			letter-spacing: normal;
-// 		}
-// 	}
-// }
 .slideout-toggle {
+    @extend .noselect;
+    position: fixed;
 	top: 0;
 	right: 0;
-	padding: 30px;
+	padding-right: 1rem;
 	font-size: 3rem;
 	cursor: pointer;
+
+	@include media($mobile) {
+		font-size: 1.5rem;
+		padding-right: 0.5rem;
+	}
+	@include media($large-mobile) {
+		font-size: 2.0rem;
+		padding-right: 0.5rem;
+	}
+	@include media($tablet) {
+		font-size: 3rem;
+		padding-right: 1rem;
+	}
+	@include media($desktop) {
+		font-size: 3rem;
+		padding-right: 0.5rem;
+	}
 }
+
 #content {
 	width: 75%;
 	height: inherit;

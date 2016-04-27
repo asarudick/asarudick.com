@@ -1,3 +1,5 @@
+@import 'breakpoints';
+
 .slideout-menu {
     position: fixed;
     left: auto;
@@ -25,7 +27,9 @@
 }
 .fixed {
     backface-visibility: hidden;
-    position: fixed;
     z-index: 2;
     transition: transform 300ms ease;
+}
+.fixed-open {
+	transform: translateX(-256px);
 }

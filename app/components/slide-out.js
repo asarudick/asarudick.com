@@ -7,7 +7,7 @@ export default Ember.Component.extend({
 		var slideout = new Slideout({
 			'panel': Ember.$(this.get('panel'))[0],
 			'menu': this.get('element'),
-			'tolerance': 70,
+			'touch': false,
 			'side': 'right'
 		});
 
