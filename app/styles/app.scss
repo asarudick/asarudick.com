@@ -8,17 +8,7 @@
 @import 'colors';
 @import 'comfort-syntax';
 @import 'noselect';
-
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300);
-@import url(https://fonts.googleapis.com/css?family=Ropa+Sans);
-@font-face {
-    font-family: "DINPro";
-    src: url('/fonts/DINPro.woff') format('woff');
-}
-@font-face {
-    font-family: "DINPro-Medium";
-    src: url('/fonts/DINPro-Medium.woff') format('woff');
-}
+@import 'fonts';
 
 html, body {
   	overflow-x: hidden;
