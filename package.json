@@ -44,9 +44,6 @@
     "ember-resolver": "^2.0.3",
     "eslint": "^2.8.0",
     "eslint-config-ember": "0.3.0",
-    "highlight": "0.2.4",
-    "highlight.js": "9.3.0",
-    "highlightjs": "8.7.0",
     "loader.js": "^4.0.0",
     "phantomjs": "^2.1.3"
   },
