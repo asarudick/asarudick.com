@@ -1,11 +1,21 @@
+@import 'font-awesome';
+
 a {
 	text-decoration: none;
 	color: $lightgreen;
 	letter-spacing: 0.08rem;
+
+	&.social {
+		color: lighten(#000, 30);
+	}
 }
 
 a:hover {
 	color: lighten($lightgreen, 10);
+
+	&.social {
+		color: $lightgreen;
+	}
 }
 
 #contact {

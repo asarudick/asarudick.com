@@ -13,6 +13,7 @@
     "jquery": "^2.2.3",
     "slideout.js": "^0.1.12",
     "remarkable": "^1.6.2",
-    "bourbon": "4.2.6"
+    "bourbon": "4.2.6",
+    "font-awesome": "~4.5.0"
   }
 }
