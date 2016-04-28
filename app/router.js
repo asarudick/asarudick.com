@@ -13,4 +13,7 @@ Router.map(function () {
     this.route('contact');
 });
 
+Router.reopen({
+	location: 'hash'
+});
 export default Router;

@@ -3,7 +3,7 @@
 @import 'breakpoints';
 @import 'colors';
 
-#blog {
+#blog, #blogpost {
 	width: 100%;
 	font-family: DINPro, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	display: inherit;
@@ -114,6 +114,7 @@
 		}
 	}
 	article, ul {
+		margin-bottom: 3rem;
 		@include media($mobile) {
 			font-size: 0.8rem;
 			width: 80%;
@@ -145,9 +146,11 @@
 				font-size: 3rem;
 			}
 		}
+	}
+}
 
-		p {
-
-		}
+#blogpost {
+	h3 {
+		font-size: inherit;
 	}
 }
