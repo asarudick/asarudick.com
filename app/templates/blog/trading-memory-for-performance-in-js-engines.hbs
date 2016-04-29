@@ -8,7 +8,7 @@
 
 				<h2>Hidden Classes (or 'Shapes')</h2>
 
-				<p>Almost all browsers make use of Self's technique of converting dynamic structures to static ones for performance gains. Google calls them 'hidden classes', or 'maps' in V8, while Mozilla uses the term 'shapes' within SpiderMonkey, but they're the same concept, in that they substitute an instance of a static structure(ie. a class instance) for a dynamic one(ie. a dictionary/hashtable). Dynamic structures require lookups for accessing properties, usually by means of a hash function that produces the index of where to find the relevant data. With class instances, however, no lookup is required, as indexes, or offsets, for properties are readily available. The nominal case provides significant a significant performance boost, but it's not without pitfalls.</p>
+				<p>Almost all browsers make use of Self's technique of converting dynamic structures to static ones for performance gains. Google calls them 'hidden classes', or 'maps' in V8, while Mozilla uses the term 'shapes' within SpiderMonkey, but they're the same concept, in that they substitute an instance of a static structure(ie. a class instance) for a dynamic one(ie. a dictionary/hashtable). Dynamic structures require lookups for accessing properties, usually by means of a hash function that produces the index of where to find the relevant data. With class instances, however, no lookup is required, as indexes, or offsets, for properties are readily available. The nominal case provides a significant performance boost, but it's not without pitfalls.</p>
 
 				<p>Generally, JavaScript objects are comprised of a limited number of properties when the developer adheres to best practices and limits the responsibilities of the objects in question. V8's hidden classes approach is excellent for such cases, but if an object has an absurd number of properties, there is a considerable amount of memory bloat, albeit non-fatal.</p>
 
@@ -29,8 +29,6 @@
 	<span class="k">this</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">height</span><span class="p">;</span>
 <span class="p">}</span>
 				</pre></div>
-
-				{{!-- <pre><code class="javascript"></code></pre> --}}
 
 
 
