@@ -1,4 +1,4 @@
-# Portfolio
+# Portfolio  [![Build Status](https://travis-ci.org/asarudick/portfolio.svg?branch=master)](https://travis-ci.org/asarudick/portfolio)
 
 This README outlines the details of collaborating on this Ember application.
 A short introduction of this app could easily go here.
