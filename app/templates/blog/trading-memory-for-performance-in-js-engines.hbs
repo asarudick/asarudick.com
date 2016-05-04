@@ -13,8 +13,8 @@
 				<p>Generally, JavaScript objects are comprised of a limited number of properties when the developer adheres to best practices and limits the responsibilities of the objects in question. V8's hidden classes approach is excellent for such cases, but if an object has an absurd number of properties, there is a considerable amount of memory bloat, albeit non-fatal.</p>
 
 				<p>To illustrate, let's examine the nominal case first. Let's use an application that has the need for encapsulating <code>Person</code> into a object, and each <code>Person</code> has the properties <code>name</code>, <code>age</code>, <code>gender</code>, and <code>height</code>, and said properties are unconditionally initialized within the constructor in a consistent order.</p>
-
-				<div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">Person</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">,</span> <span class="nx">gender</span><span class="p">,</span> <span class="nx">height</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight">
+<pre><span class="kd">function</span> <span class="nx">Person</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">,</span> <span class="nx">gender</span><span class="p">,</span> <span class="nx">height</span><span class="p">)</span> <span class="p">{</span>
 
 	<span class="c1">// Transitions from C0 to C1.</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
@@ -27,8 +27,8 @@
 
 	<span class="c1">// Transitions from C3 to C4.</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="nx">height</span><span class="p">;</span>
-<span class="p">}</span>
-				</pre></div>
+<span class="p">}</span></pre></div>
+				<div class="highlight"></div>
 
 
 

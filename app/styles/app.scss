@@ -10,6 +10,9 @@
 @import 'noselect';
 @import 'fonts';
 
+.container {
+	overflow-x: hidden;
+}
 // Extracted from bootstrap.
 code {
     padding: 2px 4px;
@@ -23,14 +26,13 @@ code, kbd, pre, samp {
 }
 
 html, body {
-  	overflow-x: hidden;
 	height: 100%;
+	width: 100%;
 	color: lighten(#000, 15);
 }
 
 body {
   	position: relative;
-	width: 100%;
 	margin: 0 0 0 0;
 }
 
