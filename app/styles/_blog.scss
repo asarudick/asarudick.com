@@ -160,6 +160,26 @@
 	}
 }
 
+ul.tags {
+	width: 100%;
+	list-style: none;
+	display: inline-block;
+	justify-content: space-around;
+	padding: 0 0 0 0;
+	margin-top: 0.7rem;
+	& li {
+		font-size: 0.8rem;
+		display: inline-block;
+		background-color: $lightgreen;
+		color: #FFF;
+		padding: 0.2rem 0.4rem 0.2rem 0.4rem;
+		border-radius: 0.2rem;
+		margin: 0.1rem 0 0.1rem 0;
+		text-align: center;
+	}
+}
+
+
 #blogpost {
 	h3 {
 		font-size: inherit;
