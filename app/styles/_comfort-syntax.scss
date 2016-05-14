@@ -9,6 +9,9 @@
     border: 0;
 	padding: 1rem;
 	font-size: 1rem;
+	// Specifying a border-radius property here will create an overflow bug
+	// where this element will be prevented from scrolling UNTIL styling is reapplied.
+	// Workaround is to specify border-radius and overflow between parent and child.
 	overflow: scroll;
 }
 
