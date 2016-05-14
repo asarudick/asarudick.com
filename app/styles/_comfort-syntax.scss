@@ -1,12 +1,11 @@
 @import 'breakpoints';
 .highlight {
-	border: 1px #3f3f3f solid;
+	border: 0;
 	border-radius: 0.3rem;
     background-color: #3f3f3f;
 }
 .highlight pre {
 	margin: 2px 2px 2px 2px;
-    border: 0;
 	padding: 1rem;
 	font-size: 1rem;
 	// Specifying a border-radius property here will create an overflow bug
